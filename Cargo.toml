@@ -24,10 +24,3 @@ strip = true # This removes debug symbols from the final binary, which doesn't a
 
 [build-dependencies]
 cbindgen = "0.29"
-
-[dev-dependencies]
-criterion = "0.5"
-
-[[bench]]
-name = "scatter_bench"
-harness = false
