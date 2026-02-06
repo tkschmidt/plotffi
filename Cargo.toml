@@ -1,0 +1,33 @@
+[package]
+name = "plotffi"
+version = "0.1.0"
+edition = "2024"
+description = "FFI library for rendering scatter plots to PNG"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+plotters = { version = "0.3.7", default-features = false, features = ["ab_glyph"] }
+plotters-bitmap = "0.3.7"
+once_cell = "1"
+
+[profile.release]
+opt-level = 3
+debug = false
+panic = "unwind"
+lto = true # Enables Link Time Optimization which allows the optimizer to work across module boundaries. This can provide significant performance improvements (up to 5-15% in some cases) at the cost of longer compile times.
+codegen-units = 1 # This forces the compiler to generate code as a single unit rather than in parallel. This allows for more aggressive whole-program optimization but significantly increases compile time. It can provide modest performance gains (1-10% depending on the codebase).
+strip = true # This removes debug symbols from the final binary, which doesn't affect runtime performance but can dramatically reduce binary size (often by 50% or more).
+
+
+[build-dependencies]
+cbindgen = "0.29"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "scatter_bench"
+harness = false
